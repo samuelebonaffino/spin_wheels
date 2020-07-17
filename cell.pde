@@ -4,8 +4,8 @@ float t = 0;
 
 class Cell
 {
-    final static int SIZE = 2;
-    final static float K = 0.2;
+    final static int SIZE = 4;
+    // final static float K = 0.2;
     // final static float K = 0.5;
     final static float ANGULAR_SPEED = 0.01;
 

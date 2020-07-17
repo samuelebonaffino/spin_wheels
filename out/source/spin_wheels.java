@@ -4,6 +4,7 @@ import processing.event.*;
 import processing.opengl.*; 
 
 import processing.sound.*; 
+import controlP5.*; 
 import java.util.ArrayList; 
 
 import java.util.HashMap; 
@@ -19,23 +20,29 @@ public class spin_wheels extends PApplet {
 
 
 
-final static int W = 256;
-final static int H = 256;
+
+final static int W = 512;
+final static int H = 512;
 final static int N = W*H/(Cell.SIZE*Cell.SIZE);
 // final static int B = W*H/4;
-final static int B = 64;
+final static int B = 128;
 
 Cell[] grid = new Cell[N];
 float[] spectrum = new float[B];
 FFT fft;
 Amplitude amp;
 SoundFile input;
+ControlP5 cp5;
+
+// CONTROL PARAMETERS
+float K = 0.2f;
 
 public void setup() 
 {
     
     initGrid();
-    initAudio("demon.wav");
+    initAudio("quadrant.wav");
+    initControl();
     addNeighbours2();
     println(N);
     colorMode(HSB, 360, 360, 360);
@@ -72,6 +79,18 @@ public void initAudio(String audio)
     input.play();
     fft.input(input);
     amp.input(input);
+}
+
+public void initControl()
+{
+    cp5 = new ControlP5(this);
+    cp5.addNumberbox("K")
+       .setPosition(10, 10)
+       .setSize(30, 15)
+       .setRange(-1, 1)
+       .setMultiplier(0.05f)
+       .setDirection(Controller.HORIZONTAL)
+       .setValue(0.2f);
 }
 
 public void addNeighbours()
@@ -130,8 +149,8 @@ float t = 0;
 
 class Cell
 {
-    final static int SIZE = 2;
-    final static float K = 0.2f;
+    final static int SIZE = 4;
+    // final static float K = 0.2;
     // final static float K = 0.5;
     final static float ANGULAR_SPEED = 0.01f;
 
@@ -217,7 +236,7 @@ class Cell
         // w = constrain(w, 0, 3/2*PI);
     }
 }
-  public void settings() {  size(256, 256); }
+  public void settings() {  size(512, 512); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "spin_wheels" };
     if (passedArgs != null) {

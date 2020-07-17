@@ -1,22 +1,28 @@
 import processing.sound.*;
+import controlP5.*;
 
-final static int W = 256;
-final static int H = 256;
+final static int W = 512;
+final static int H = 512;
 final static int N = W*H/(Cell.SIZE*Cell.SIZE);
 // final static int B = W*H/4;
-final static int B = 64;
+final static int B = 128;
 
 Cell[] grid = new Cell[N];
 float[] spectrum = new float[B];
 FFT fft;
 Amplitude amp;
 SoundFile input;
+ControlP5 cp5;
+
+// CONTROL PARAMETERS
+float K = 0.2;
 
 void setup() 
 {
-    size(256, 256);
+    size(512, 512);
     initGrid();
-    initAudio("demon.wav");
+    initAudio("quadrant.wav");
+    initControl();
     addNeighbours2();
     println(N);
     colorMode(HSB, 360, 360, 360);
@@ -53,6 +59,18 @@ void initAudio(String audio)
     input.play();
     fft.input(input);
     amp.input(input);
+}
+
+void initControl()
+{
+    cp5 = new ControlP5(this);
+    cp5.addNumberbox("K")
+       .setPosition(10, 10)
+       .setSize(30, 15)
+       .setRange(-1, 1)
+       .setMultiplier(0.05)
+       .setDirection(Controller.HORIZONTAL)
+       .setValue(0.2);
 }
 
 void addNeighbours()
