@@ -19,11 +19,11 @@ public class spin_wheels extends PApplet {
 
 
 
-final static int W = 512;
-final static int H = 512;
+final static int W = 256;
+final static int H = 256;
 final static int N = W*H/(Cell.SIZE*Cell.SIZE);
 // final static int B = W*H/4;
-final static int B = 128;
+final static int B = 64;
 
 Cell[] grid = new Cell[N];
 float[] spectrum = new float[B];
@@ -35,7 +35,7 @@ public void setup()
 {
     
     initGrid();
-    initAudio("duality.wav");
+    initAudio("demon.wav");
     addNeighbours2();
     println(N);
     colorMode(HSB, 360, 360, 360);
@@ -132,7 +132,7 @@ class Cell
 {
     final static int SIZE = 2;
     final static float K = 0.2f;
-    // final static float K = 0.3;
+    // final static float K = 0.5;
     final static float ANGULAR_SPEED = 0.01f;
 
     int id, x, y;
@@ -176,7 +176,7 @@ class Cell
 
     public void phaseToColor()
     {
-        int h = round(map(phaseH, 0, 2*PI, 50, 100));
+        int h = round(map(phaseH, 0, 2*PI, 0, 360));
         int s = round(map(phaseS, 0, 2*PI, 250, 360));
         int b = round(map(phaseB, 0, 2*PI, 0, 360));
         c = color(h, h, h, 50);
@@ -217,7 +217,7 @@ class Cell
         // w = constrain(w, 0, 3/2*PI);
     }
 }
-  public void settings() {  size(512, 512); }
+  public void settings() {  size(256, 256); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "spin_wheels" };
     if (passedArgs != null) {

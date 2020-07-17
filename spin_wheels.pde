@@ -1,10 +1,10 @@
 import processing.sound.*;
 
-final static int W = 512;
-final static int H = 512;
+final static int W = 256;
+final static int H = 256;
 final static int N = W*H/(Cell.SIZE*Cell.SIZE);
 // final static int B = W*H/4;
-final static int B = 128;
+final static int B = 64;
 
 Cell[] grid = new Cell[N];
 float[] spectrum = new float[B];
@@ -14,9 +14,9 @@ SoundFile input;
 
 void setup() 
 {
-    size(512, 512);
+    size(256, 256);
     initGrid();
-    initAudio("duality.wav");
+    initAudio("demon.wav");
     addNeighbours2();
     println(N);
     colorMode(HSB, 360, 360, 360);

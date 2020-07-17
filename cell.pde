@@ -6,7 +6,7 @@ class Cell
 {
     final static int SIZE = 2;
     final static float K = 0.2;
-    // final static float K = 0.3;
+    // final static float K = 0.5;
     final static float ANGULAR_SPEED = 0.01;
 
     int id, x, y;
@@ -50,7 +50,7 @@ class Cell
 
     void phaseToColor()
     {
-        int h = round(map(phaseH, 0, 2*PI, 50, 100));
+        int h = round(map(phaseH, 0, 2*PI, 0, 360));
         int s = round(map(phaseS, 0, 2*PI, 250, 360));
         int b = round(map(phaseB, 0, 2*PI, 0, 360));
         c = color(h, h, h, 50);
