@@ -4,8 +4,8 @@ import processing.event.*;
 import processing.opengl.*; 
 
 import processing.sound.*; 
-import controlP5.*; 
 import java.util.ArrayList; 
+import controlP5.*; 
 
 import java.util.HashMap; 
 import java.util.ArrayList; 
@@ -20,9 +20,8 @@ public class spin_wheels extends PApplet {
 
 
 
-
-final static int W = 512;
-final static int H = 512;
+final static int W = 256;
+final static int H = 256;
 final static int N = W*H/(Cell.SIZE*Cell.SIZE);
 // final static int B = W*H/4;
 final static int B = 128;
@@ -32,17 +31,17 @@ float[] spectrum = new float[B];
 FFT fft;
 Amplitude amp;
 SoundFile input;
-ControlP5 cp5;
 
 // CONTROL PARAMETERS
-float K = 0.2f;
+float K;
+float angularSpeed;
 
 public void setup() 
 {
     
     initGrid();
-    initAudio("quadrant.wav");
-    initControl();
+    initAudio("duality.wav");
+    initControlSystem();
     addNeighbours2();
     println(N);
     colorMode(HSB, 360, 360, 360);
@@ -79,18 +78,6 @@ public void initAudio(String audio)
     input.play();
     fft.input(input);
     amp.input(input);
-}
-
-public void initControl()
-{
-    cp5 = new ControlP5(this);
-    cp5.addNumberbox("K")
-       .setPosition(10, 10)
-       .setSize(30, 15)
-       .setRange(-1, 1)
-       .setMultiplier(0.05f)
-       .setDirection(Controller.HORIZONTAL)
-       .setValue(0.2f);
 }
 
 public void addNeighbours()
@@ -152,7 +139,7 @@ class Cell
     final static int SIZE = 4;
     // final static float K = 0.2;
     // final static float K = 0.5;
-    final static float ANGULAR_SPEED = 0.01f;
+    // final static float ANGULAR_SPEED = 0.01;
 
     int id, x, y;
     float phaseH, phaseS, phaseB, w;
@@ -213,9 +200,9 @@ class Cell
 
     public void updatePhase()
     {
-        phaseH += w + ANGULAR_SPEED;
-        phaseS += w + ANGULAR_SPEED;
-        phaseB += w + ANGULAR_SPEED;
+        phaseH += w + angularSpeed;
+        phaseS += w + angularSpeed;
+        phaseB += w + angularSpeed;
         resetPhase();
     }
 
@@ -236,7 +223,30 @@ class Cell
         // w = constrain(w, 0, 3/2*PI);
     }
 }
-  public void settings() {  size(512, 512); }
+
+
+ControlP5 cp5_K;
+ControlP5 cp5_angularSpeed;
+
+public void initControlSystem()
+{
+    cp5_K = initControl("K", 10, 0.01f, 0);
+    cp5_angularSpeed = initControl("angularSpeed", 30, 0.01f, 0);
+}
+
+public ControlP5 initControl(String name, int y, float mul, float start)
+{
+    ControlP5 cp5 = new ControlP5(this);
+    cp5.addNumberbox(name)
+       .setPosition(10, y)
+       .setSize(30, 15)
+       .setRange(-1, 1)
+       .setMultiplier(mul)
+       .setDirection(Controller.HORIZONTAL)
+       .setValue(start);
+    return cp5;
+}
+  public void settings() {  size(256, 256); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "spin_wheels" };
     if (passedArgs != null) {

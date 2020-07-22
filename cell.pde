@@ -7,7 +7,7 @@ class Cell
     final static int SIZE = 4;
     // final static float K = 0.2;
     // final static float K = 0.5;
-    final static float ANGULAR_SPEED = 0.01;
+    // final static float ANGULAR_SPEED = 0.01;
 
     int id, x, y;
     float phaseH, phaseS, phaseB, w;
@@ -68,9 +68,9 @@ class Cell
 
     void updatePhase()
     {
-        phaseH += w + ANGULAR_SPEED;
-        phaseS += w + ANGULAR_SPEED;
-        phaseB += w + ANGULAR_SPEED;
+        phaseH += w + angularSpeed;
+        phaseS += w + angularSpeed;
+        phaseB += w + angularSpeed;
         resetPhase();
     }
 
